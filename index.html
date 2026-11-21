@@ -1,0 +1,985 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LTK Tahu Susu Sukahati</title>
+  <style>
+    :root {
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --secondary: #eab308;
+      --secondary-dark: #ca8a04;
+      --accent: #fef08a;
+      --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #fefce8 50%, #dcfce7 100%);
+      --text: #1f2937;
+      --card-bg: rgba(255, 255, 255, 0.98);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    header {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      margin-bottom: 12px;
+    }
+
+    .app-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.25);
+      padding: 6px 12px;
+      margin-top: 8px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .role-badge {
+      background: var(--accent);
+      color: var(--primary-dark);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .btn-logout {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #374151;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 7px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      background: white;
+    }
+
+    .nav-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 6px;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+    }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .tab-content, .panel-view {
+      display: none;
+    }
+
+    .tab-content.active, .panel-view.active {
+      display: block;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      background: white;
+      white-space: nowrap;
+    }
+
+    th {
+      background: var(--secondary);
+      color: #334155;
+      padding: 8px 5px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 5px;
+      border-bottom: 1px solid #f1f5f9;
+      text-align: center;
+    }
+
+    td input {
+      padding: 5px;
+      text-align: center;
+      font-size: 0.75rem;
+      min-width: 55px;
+    }
+
+    input[readonly] {
+      background-color: #f1f5f9;
+      color: #475569;
+      border-color: #e2e8f0;
+    }
+
+    tfoot td {
+      background: #f0fdf4;
+      font-weight: 800;
+      color: var(--primary-dark);
+      padding: 8px;
+      border-top: 2px solid var(--primary);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+      color: white;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: white;
+      width: 90%;
+      max-width: 350px;
+      border-radius: 16px;
+      padding: 20px 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .role-selector {
+      display: flex;
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .role-option {
+      flex: 1;
+      padding: 8px 4px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.72rem;
+    }
+
+    .role-option.selected {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      color: var(--primary-dark);
+    }
+
+    .total-box {
+      background: #fefce8;
+      border: 2px dashed var(--secondary-dark);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .total-amount {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="app-title">LTK TAHU SUSU SUKAHATI</div>
+    <div class="user-bar">
+      <span>Akses: <span id="currentRoleDisplay" class="role-badge">Staff Outlet</span></span>
+      <button class="btn-logout" onclick="logout()">Keluar</button>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- PANEL 1: STAFF / LEADER OUTLET VIEW -->
+    <div id="outletPanelView" class="panel-view active">
+      <div class="card">
+        <div class="grid-2">
+          <div>
+            <label>Outlet</label>
+            <input type="text" id="outletName" value="Ciomas">
+          </div>
+          <div>
+            <label>Hari / Tgl</label>
+            <input type="date" id="docDate" onchange="checkDateReset()">
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top: 6px;">
+          <div>
+            <label>Team</label>
+            <input type="text" id="teamMembers" value="Arif, Kahfi, Rangga">
+          </div>
+          <div>
+            <label>Jam Habis</label>
+            <input type="time" id="timeFinish">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Navigasi Outlet (7 Menu) -->
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">1. Makanan</button>
+        <button class="tab-btn" onclick="switchTab(1)">2. Minuman</button>
+        <button class="tab-btn" onclick="switchTab(2)">3. Stok ML</button>
+        <button class="tab-btn" onclick="switchTab(3)">4. Stok Harian</button>
+        <button class="tab-btn" onclick="switchTab(4)">5. Logistik</button>
+        <button class="tab-btn" onclick="switchTab(5)">6. Pengeluaran</button>
+        <button class="tab-btn" onclick="switchTab(6)">7. Rekap & Setor</button>
+      </div>
+
+      <!-- TAB 1: PENJUALAN MAKANAN (STATIS LANGSUNG MUNCUL) -->
+      <div class="tab-content active" id="tab-0">
+        <div class="card">
+          <h3>1. Penjualan Makanan</h3>
+          <div class="table-responsive" style="margin-top: 8px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Awal</th>
+                  <th>Kiriman</th>
+                  <th>In/Out</th>
+                  <th>Rusak</th>
+                  <th>Sisa</th>
+                  <th>Online (A)</th>
+                  <th>Cash (B)</th>
+                  <th>Harga</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>TS</b></td>
+                  <td><input type="number" id="m_awal_ts" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_kirim_ts" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_inout_ts" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_rusak_ts" value="0" oninput="calculateAll()"></td>
+                  <td><b id="m_sisa_ts">0</b></td>
+                  <td><input type="number" id="m_online_ts" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_cash_ts" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_harga_ts" class="price-input" value="1428" readonly oninput="calculateAll()"></td>
+                  <td><b id="m_total_ts">0</b></td>
+                </tr>
+                <tr>
+                  <td><b>TI / pak</b></td>
+                  <td><input type="number" id="m_awal_ti" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_kirim_ti" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_inout_ti" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_rusak_ti" value="0" oninput="calculateAll()"></td>
+                  <td><b id="m_sisa_ti">0</b></td>
+                  <td><input type="number" id="m_online_ti" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_cash_ti" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_harga_ti" class="price-input" value="15000" readonly oninput="calculateAll()"></td>
+                  <td><b id="m_total_ti">0</b></td>
+                </tr>
+                <tr>
+                  <td><b>Kerupuk</b></td>
+                  <td><input type="number" id="m_awal_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_kirim_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_inout_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_rusak_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><b id="m_sisa_kerupuk">0</b></td>
+                  <td><input type="number" id="m_online_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_cash_kerupuk" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="m_harga_kerupuk" class="price-input" value="5000" readonly oninput="calculateAll()"></td>
+                  <td><b id="m_total_kerupuk">0</b></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="9" style="text-align: right;">Penjualan Makanan (T) :</td>
+                  <td id="subtotalMakananDisplay">Rp 0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: MINUMAN BOTOL (STATIS LANGSUNG MUNCUL) -->
+      <div class="tab-content" id="tab-1">
+        <div class="card">
+          <h3>2. Penjualan Minuman Botol</h3>
+          <div class="table-responsive" style="margin-top: 8px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Online (A)</th>
+                  <th>Cash (B)</th>
+                  <th>Harga</th>
+                  <th>Total Rp</th>
+                  <th>Total ML</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>SO 250ML</b></td>
+                  <td><input type="number" id="min_online_so_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_so_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_so_250" class="price-input" value="5000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_so_250">0</b></td>
+                  <td><span id="min_totalml_so_250">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SO 1L</b></td>
+                  <td><input type="number" id="min_online_so_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_so_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_so_1l" class="price-input" value="17000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_so_1l">0</b></td>
+                  <td><span id="min_totalml_so_1l">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SP 250ML</b></td>
+                  <td><input type="number" id="min_online_sp_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_sp_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_sp_250" class="price-input" value="6000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_sp_250">0</b></td>
+                  <td><span id="min_totalml_sp_250">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SP 1L</b></td>
+                  <td><input type="number" id="min_online_sp_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_sp_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_sp_1l" class="price-input" value="20000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_sp_1l">0</b></td>
+                  <td><span id="min_totalml_sp_1l">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SKI 250ML</b></td>
+                  <td><input type="number" id="min_online_ski_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_ski_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_ski_250" class="price-input" value="6000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_ski_250">0</b></td>
+                  <td><span id="min_totalml_ski_250">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SKI 1L</b></td>
+                  <td><input type="number" id="min_online_ski_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_ski_1l" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_ski_1l" class="price-input" value="20000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_ski_1l">0</b></td>
+                  <td><span id="min_totalml_ski_1l">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SCP 60ML</b></td>
+                  <td><input type="number" id="min_online_scp_60" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_scp_60" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_scp_60" class="price-input" value="6000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_scp_60">0</b></td>
+                  <td><span id="min_totalml_scp_60">0</span></td>
+                </tr>
+                <tr>
+                  <td><b>SCP 250ML</b></td>
+                  <td><input type="number" id="min_online_scp_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_cash_scp_250" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="min_harga_scp_250" class="price-input" value="15000" readonly oninput="calculateAll()"></td>
+                  <td><b id="min_totalrp_scp_250">0</b></td>
+                  <td><span id="min_totalml_scp_250">0</span></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" style="text-align: right;">Penjualan Minuman & Samcap (SS) :</td>
+                  <td id="subtotalMinumanDisplay">Rp 0</td>
+                  <td id="subtotalMlDisplay">0 ML</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: STOK MINUMAN PER ML -->
+      <div class="tab-content" id="tab-2">
+        <div class="card">
+          <h3>3. Stok Minuman & Samcap (ML)</h3>
+          <div class="table-responsive" style="margin-top: 8px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Saldo</th>
+                  <th>Kiriman</th>
+                  <th>In/Out</th>
+                  <th>Keluar</th>
+                  <th>Sisa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>SO</b></td>
+                  <td><input type="number" id="ml_saldo_SO" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_kiriman_SO" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_inout_SO" value="0" oninput="calculateAll()"></td>
+                  <td><span id="ml_keluar_SO">0</span></td>
+                  <td><b id="ml_sisa_SO">0</b></td>
+                </tr>
+                <tr>
+                  <td><b>SP</b></td>
+                  <td><input type="number" id="ml_saldo_SP" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_kiriman_SP" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_inout_SP" value="0" oninput="calculateAll()"></td>
+                  <td><span id="ml_keluar_SP">0</span></td>
+                  <td><b id="ml_sisa_SP">0</b></td>
+                </tr>
+                <tr>
+                  <td><b>SKI</b></td>
+                  <td><input type="number" id="ml_saldo_SKI" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_kiriman_SKI" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_inout_SKI" value="0" oninput="calculateAll()"></td>
+                  <td><span id="ml_keluar_SKI">0</span></td>
+                  <td><b id="ml_sisa_SKI">0</b></td>
+                </tr>
+                <tr>
+                  <td><b>SCP</b></td>
+                  <td><input type="number" id="ml_saldo_SCP" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_kiriman_SCP" value="0" oninput="calculateAll()"></td>
+                  <td><input type="number" id="ml_inout_SCP" value="0" oninput="calculateAll()"></td>
+                  <td><span id="ml_keluar_SCP">0</span></td>
+                  <td><b id="ml_sisa_SCP">0</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: STOK HARIAN -->
+      <div class="tab-content" id="tab-3">
+        <div class="card">
+          <h3>4. Laporan Stok Harian</h3>
+          <div class="table-responsive" style="margin-top: 8px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Awal</th>
+                  <th>Masuk</th>
+                  <th>Keluar</th>
+                  <th>Rusak</th>
+                  <th>Sisa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Besek</b></td><td><input type="number" id="sh_awal_Besek" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Besek" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Besek" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Besek" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Besek">0</b></td></tr>
+                <tr><td><b>Gas 3kg</b></td><td><input type="number" id="sh_awal_Gas3kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Gas3kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Gas3kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Gas3kg" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Gas3kg">0</b></td></tr>
+                <tr><td><b>Gas 12kg</b></td><td><input type="number" id="sh_awal_Gas12kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Gas12kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Gas12kg" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Gas12kg" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Gas12kg">0</b></td></tr>
+                <tr><td><b>Cabe</b></td><td><input type="number" id="sh_awal_Cabe" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Cabe" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Cabe" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Cabe" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Cabe">0</b></td></tr>
+                <tr><td><b>Minyak</b></td><td><input type="number" id="sh_awal_Minyak" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Minyak" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Minyak" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Minyak" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Minyak">0</b></td></tr>
+                <tr><td><b>TW</b></td><td><input type="number" id="sh_awal_TW" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_TW" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_TW" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_TW" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_TW">0</b></td></tr>
+                <tr><td><b>Btl Scp</b></td><td><input type="number" id="sh_awal_BtlScp" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_BtlScp" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_BtlScp" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_BtlScp" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_BtlScp">0</b></td></tr>
+                <tr><td><b>Btl 250ml</b></td><td><input type="number" id="sh_awal_Btl250ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Btl250ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Btl250ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Btl250ml" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Btl250ml">0</b></td></tr>
+                <tr><td><b>Btl 1000ml</b></td><td><input type="number" id="sh_awal_Btl1000ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Btl1000ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Btl1000ml" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Btl1000ml" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Btl1000ml">0</b></td></tr>
+                <tr><td><b>Kraft</b></td><td><input type="number" id="sh_awal_Kraft" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Kraft" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Kraft" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Kraft" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Kraft">0</b></td></tr>
+                <tr><td><b>Ivory</b></td><td><input type="number" id="sh_awal_Ivory" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_masuk_Ivory" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_keluar_Ivory" value="0" oninput="calculateAll()"></td><td><input type="number" id="sh_rusak_Ivory" value="0" oninput="calculateAll()"></td><td><b id="sh_sisa_Ivory">0</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: LOGISTIK -->
+      <div class="tab-content" id="tab-4">
+        <div class="card">
+          <h3>5. Kiriman Logistik</h3>
+          <label style="margin-top: 6px;">Catatan Kiriman Barang:</label>
+          <textarea id="logistikNote" style="height: 80px;" placeholder="Tulis detail kiriman logistik..."></textarea>
+        </div>
+      </div>
+
+      <!-- TAB 6: PENGELUARAN & CASH -->
+      <div class="tab-content" id="tab-5">
+        <div class="card">
+          <h3>6. Rincian Pengeluaran & Cash</h3>
+          
+          <div style="background:#f8fafc; padding:8px; border-radius:8px; margin-top:8px; border:1px solid #e2e8f0;">
+            <div class="summary-row">
+              <span>Penjualan Makanan (T)</span>
+              <b id="cashTabMakanan">Rp 0</b>
+            </div>
+            <div class="summary-row">
+              <span>Penjualan Minuman (SS)</span>
+              <b id="cashTabMinuman">Rp 0</b>
+            </div>
+            <div class="summary-row" style="border-bottom:none; color:var(--primary-dark);">
+              <b>Total Penjualan (T + SS)</b>
+              <b id="cashTabTotalKotor">Rp 0</b>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:10px;">
+            <div>
+              <label>U.M. 1 (-)</label>
+              <input type="number" id="um1" value="60000" oninput="calculateAll()">
+            </div>
+            <div>
+              <label>U.M. 2 (-)</label>
+              <input type="number" id="um2" value="60000" oninput="calculateAll()">
+            </div>
+          </div>
+          
+          <div class="grid-2" style="margin-top:8px;">
+            <div>
+              <label>QRIS (-)</label>
+              <input type="number" id="qrisVal" value="0" oninput="calculateAll()">
+            </div>
+            <div>
+              <label>OVO (-)</label>
+              <input type="number" id="ovoVal" value="0" oninput="calculateAll()">
+            </div>
+          </div>
+
+          <div class="total-box">
+            <div style="font-size: 0.75rem; font-weight: bold; color: #475569;">TOTAL CASH BERSIH (Fisik)</div>
+            <div class="total-amount" id="totalCashResult">Rp 0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 7: REKAP & SETOR -->
+      <div class="tab-content" id="tab-6">
+        <div class="card">
+          <h3>7. Rekapitulasi & Setor Omset</h3>
+          <div style="background:#f0fdf4; padding:10px; border-radius:8px; margin-top:8px; border:1px solid #bbf7d0;">
+            <div class="summary-row">
+              <span>Total Penjualan Kotor (T+SS):</span>
+              <b id="rekapOmsetKotor">Rp 0</b>
+            </div>
+            <div class="summary-row" style="border-bottom:none;">
+              <span>Total Cash Fisik Setor:</span>
+              <b id="rekapCashBersih" style="color:var(--primary-dark);">Rp 0</b>
+            </div>
+          </div>
+          <p style="font-size:0.75rem; margin-top:8px; color:#64748b;">Kirim laporan omset hari ini ke pusat Admin.</p>
+          <div style="margin-top: 12px; display:flex; flex-direction:column; gap:8px;">
+            <button class="btn btn-primary" onclick="submitSetoran()">🚀 Kirim Setoran Omset Toko</button>
+            <button class="btn btn-warning" onclick="window.print()">🖨️ Cetak Lembar Kerja</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PANEL 2: KHUSUS ADMIN PUSAT VIEW -->
+    <div id="adminPanelView" class="panel-view">
+      <div class="card">
+        <h2 style="color: var(--primary-dark); margin-bottom: 5px;">👑 Dashboard Admin Pusat</h2>
+        <p style="font-size: 0.8rem; color: #64748b;">Monitoring setoran toko, omset harian (reset otomatis setiap hari), & omset bulanan.</p>
+        
+        <div class="table-responsive" style="margin-top: 12px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama Outlet</th>
+                <th>Status Setor</th>
+                <th>Omset Harian</th>
+                <th>Omset Bulanan</th>
+              </tr>
+            </thead>
+            <tbody id="adminMonitoringTable"></tbody>
+          </table>
+        </div>
+        
+        <button class="btn btn-warning" style="margin-top: 15px;" onclick="resetAdminData()">🔄 Reset Data Monitoring Admin</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Login Pemisah -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <h3 style="text-align: center; color: var(--primary-dark);">LOGIN SISTEM</h3>
+      <p style="text-align: center; font-size:0.75rem; color:#64748b; margin-top: 3px;">Pilih jenis akses Anda</p>
+      
+      <div class="role-selector">
+        <div class="role-option selected" id="roleStaff" onclick="selectRole('staff')">Staff Outlet</div>
+        <div class="role-option" id="roleLeader" onclick="selectRole('leader')">Leader</div>
+        <div class="role-option" id="roleAdmin" onclick="selectRole('admin')">Admin Pusat</div>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label id="passLabel">Password Staff (user123)</label>
+        <input type="password" id="passInput" placeholder="Masukkan password...">
+      </div>
+
+      <button class="btn btn-primary" onclick="attemptLogin()">MASUK APLIKASI</button>
+    </div>
+  </div>
+
+  <script>
+    var selectedRole = 'staff';
+    var passwords = {
+      staff: 'user123',
+      leader: 'leader123',
+      admin: 'admin123'
+    };
+
+    var makananList = [
+      { id: 'ts', name: 'TS' },
+      { id: 'ti', name: 'TI / pak' },
+      { id: 'kerupuk', name: 'Kerupuk' }
+    ];
+
+    var minumanList = [
+      { id: 'so_250', ml: 250, cat: 'SO' },
+      { id: 'so_1l', ml: 1000, cat: 'SO' },
+      { id: 'sp_250', ml: 250, cat: 'SP' },
+      { id: 'sp_1l', ml: 1000, cat: 'SP' },
+      { id: 'ski_250', ml: 250, cat: 'SKI' },
+      { id: 'ski_1l', ml: 1000, cat: 'SKI' },
+      { id: 'scp_60', ml: 60, cat: 'SCP' },
+      { id: 'scp_250', ml: 250, cat: 'SCP' }
+    ];
+
+    var stokMlList = ['SO', 'SP', 'SKI', 'SCP'];
+    var stokHarianList = ['Besek', 'Gas3kg', 'Gas12kg', 'Cabe', 'Minyak', 'TW', 'BtlScp', 'Btl250ml', 'Btl1000ml', 'Kraft', 'Ivory'];
+
+    var outletsData = {
+      "Ciomas": { status: "Belum Setor", harian: 0, bulanan: 0, lastDate: "" },
+      "Dramaga": { status: "Belum Setor", harian: 0, bulanan: 0, lastDate: "" },
+      "Sukahati": { status: "Belum Setor", harian: 0, bulanan: 0, lastDate: "" },
+      "Bojong Gede": { status: "Belum Setor", harian: 0, bulanan: 0, lastDate: "" }
+    };
+
+    try {
+      var saved = localStorage.getItem('ltk_outlets_db');
+      if (saved) outletsData = JSON.parse(saved);
+    } catch (e) {}
+
+    function setPriceEditable(isEditable) {
+      var inputs = document.querySelectorAll('.price-input');
+      for (var i = 0; i < inputs.length; i++) {
+        if (isEditable) {
+          inputs[i].removeAttribute('readonly');
+        } else {
+          inputs[i].setAttribute('readonly', true);
+        }
+      }
+    }
+
+    function selectRole(role) {
+      selectedRole = role;
+      document.getElementById('roleStaff').className = 'role-option' + (role === 'staff' ? ' selected' : '');
+      document.getElementById('roleLeader').className = 'role-option' + (role === 'leader' ? ' selected' : '');
+      document.getElementById('roleAdmin').className = 'role-option' + (role === 'admin' ? ' selected' : '');
+      
+      var label = document.getElementById('passLabel');
+      if(role === 'staff') label.innerText = 'Password Staff (user123)';
+      else if(role === 'leader') label.innerText = 'Password Leader (leader123)';
+      else label.innerText = 'Password Admin Pusat (admin123)';
+    }
+
+    function attemptLogin() {
+      var pass = document.getElementById('passInput').value;
+      if (pass === passwords[selectedRole]) {
+        document.getElementById('loginModal').style.display = 'none';
+        
+        if(selectedRole === 'admin') {
+          document.getElementById('currentRoleDisplay').innerText = 'Admin Pusat';
+          document.getElementById('outletPanelView').className = 'panel-view';
+          document.getElementById('adminPanelView').className = 'panel-view active';
+          renderAdminTable();
+        } else {
+          document.getElementById('currentRoleDisplay').innerText = selectedRole === 'leader' ? 'Leader Outlet' : 'Staff Outlet';
+          document.getElementById('adminPanelView').className = 'panel-view';
+          document.getElementById('outletPanelView').className = 'panel-view active';
+          setPriceEditable(selectedRole === 'leader');
+          calculateAll();
+        }
+      } else {
+        alert('Password salah!');
+      }
+    }
+
+    function logout() {
+      document.getElementById('loginModal').style.display = 'flex';
+      document.getElementById('passInput').value = '';
+    }
+
+    function switchTab(idx) {
+      var btns = document.querySelectorAll('.tab-btn');
+      var contents = document.querySelectorAll('.tab-content');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].className = 'tab-btn' + (i === idx ? ' active' : '');
+      }
+      for (var j = 0; j < contents.length; j++) {
+        contents[j].className = 'tab-content' + (j === idx ? ' active' : '');
+      }
+    }
+
+    function getVal(id) {
+      var el = document.getElementById(id);
+      return el ? (parseFloat(el.value) || 0) : 0;
+    }
+
+    var globalTotalOmset = 0;
+
+    function calculateAll() {
+      var totalMakananRp = 0;
+      var totalMinumanRp = 0;
+      var totalAllMl = 0;
+
+      // 1. Makanan
+      for (var i = 0; i < makananList.length; i++) {
+        var id = makananList[i].id;
+        var awal = getVal('m_awal_' + id);
+        var kirim = getVal('m_kirim_' + id);
+        var inout = getVal('m_inout_' + id);
+        var rusak = getVal('m_rusak_' + id);
+        var online = getVal('m_online_' + id);
+        var cash = getVal('m_cash_' + id);
+        var harga = getVal('m_harga_' + id);
+
+        var terjual = online + cash;
+        var sisa = awal + kirim + inout - rusak - terjual;
+        var total = Math.round(terjual * harga);
+        totalMakananRp += total;
+
+        document.getElementById('m_sisa_' + id).innerText = sisa;
+        document.getElementById('m_total_' + id).innerText = total.toLocaleString('id-ID');
+      }
+      document.getElementById('subtotalMakananDisplay').innerText = 'Rp ' + totalMakananRp.toLocaleString('id-ID');
+
+      // 2. Minuman
+      var mlUsage = { SO: 0, SP: 0, SKI: 0, SCP: 0 };
+      for (var j = 0; j < minumanList.length; j++) {
+        var m = minumanList[j];
+        var mOnline = getVal('min_online_' + m.id);
+        var mCash = getVal('min_cash_' + m.id);
+        var mHarga = getVal('min_harga_' + m.id);
+
+        var qty = mOnline + mCash;
+        var rp = Math.round(qty * mHarga);
+        var ml = qty * m.ml;
+        totalMinumanRp += rp;
+        totalAllMl += ml;
+        mlUsage[m.cat] += ml;
+
+        document.getElementById('min_totalrp_' + m.id).innerText = rp.toLocaleString('id-ID');
+        document.getElementById('min_totalml_' + m.id).innerText = ml;
+      }
+      document.getElementById('subtotalMinumanDisplay').innerText = 'Rp ' + totalMinumanRp.toLocaleString('id-ID');
+      document.getElementById('subtotalMlDisplay').innerText = totalAllMl.toLocaleString('id-ID') + ' ML';
+
+      // 3. Stok ML
+      for (var k = 0; k < stokMlList.length; k++) {
+        var cat = stokMlList[k];
+        var saldo = getVal('ml_saldo_' + cat);
+        var kiriman = getVal('ml_kiriman_' + cat);
+        var mlInOut = getVal('ml_inout_' + cat);
+        var keluar = mlUsage[cat];
+        var sisaMl = saldo + kiriman + mlInOut - keluar;
+
+        document.getElementById('ml_keluar_' + cat).innerText = keluar;
+        document.getElementById('ml_sisa_' + cat).innerText = sisaMl;
+      }
+
+      // 4. Stok Harian
+      for (var n = 0; n < stokHarianList.length; n++) {
+        var item = stokHarianList[n];
+        var shAwal = getVal('sh_awal_' + item);
+        var shMasuk = getVal('sh_masuk_' + item);
+        var shKeluar = getVal('sh_keluar_' + item);
+        var shRusak = getVal('sh_rusak_' + item);
+        var shSisa = shAwal + shMasuk - shKeluar - shRusak;
+
+        document.getElementById('sh_sisa_' + item).innerText = shSisa;
+      }
+
+      // 5. Cash & Rekap
+      var um1 = getVal('um1');
+      var um2 = getVal('um2');
+      var qris = getVal('qrisVal');
+      var ovo = getVal('ovoVal');
+
+      globalTotalOmset = totalMakananRp + totalMinumanRp;
+      var netCash = globalTotalOmset - (um1 + um2 + qris + ovo);
+
+      document.getElementById('cashTabMakanan').innerText = 'Rp ' + totalMakananRp.toLocaleString('id-ID');
+      document.getElementById('cashTabMinuman').innerText = 'Rp ' + totalMinumanRp.toLocaleString('id-ID');
+      document.getElementById('cashTabTotalKotor').innerText = 'Rp ' + globalTotalOmset.toLocaleString('id-ID');
+      document.getElementById('totalCashResult').innerText = 'Rp ' + netCash.toLocaleString('id-ID');
+      document.getElementById('rekapOmsetKotor').innerText = 'Rp ' + globalTotalOmset.toLocaleString('id-ID');
+      document.getElementById('rekapCashBersih').innerText = 'Rp ' + netCash.toLocaleString('id-ID');
+    }
+
+    function checkDateReset() {
+      var todayStr = document.getElementById('docDate').value;
+      for (var outlet in outletsData) {
+        if (outletsData[outlet].lastDate !== todayStr) {
+          outletsData[outlet].harian = 0;
+          outletsData[outlet].status = "Belum Setor";
+          outletsData[outlet].lastDate = todayStr;
+        }
+      }
+      try { localStorage.setItem('ltk_outlets_db', JSON.stringify(outletsData)); } catch(e) {}
+    }
+
+    function submitSetoran() {
+      var currentOutlet = document.getElementById('outletName').value || "Ciomas";
+      var todayStr = document.getElementById('docDate').value;
+
+      if (!outletsData[currentOutlet]) {
+        outletsData[currentOutlet] = { status: "Belum Setor", harian: 0, bulanan: 0, lastDate: todayStr };
+      }
+
+      outletsData[currentOutlet].status = "Sudah Setor ✅";
+      outletsData[currentOutlet].harian = globalTotalOmset;
+      outletsData[currentOutlet].bulanan += globalTotalOmset;
+      outletsData[currentOutlet].lastDate = todayStr;
+
+      try { localStorage.setItem('ltk_outlets_db', JSON.stringify(outletsData)); } catch(e) {}
+      alert('Setoran omset outlet "' + currentOutlet + '" berhasil dikirim! Total: Rp ' + globalTotalOmset.toLocaleString('id-ID'));
+    }
+
+    function renderAdminTable() {
+      var adminBody = document.getElementById('adminMonitoringTable');
+      if (!adminBody) return;
+      var html = '';
+      for (var outlet in outletsData) {
+        var data = outletsData[outlet];
+        var color = data.status.indexOf('Sudah') !== -1 ? 'green' : 'red';
+        html += '<tr>' +
+          '<td><b>' + outlet + '</b></td>' +
+          '<td><span style="color:' + color + '; font-weight:bold;">' + data.status + '</span></td>' +
+          '<td>Rp ' + data.harian.toLocaleString('id-ID') + '</td>' +
+          '<td><b>Rp ' + data.bulanan.toLocaleString('id-ID') + '</b></td>' +
+        '</tr>';
+      }
+      adminBody.innerHTML = html;
+    }
+
+    function resetAdminData() {
+      if(confirm("Reset seluruh data monitoring omset admin?")) {
+        try { localStorage.removeItem('ltk_outlets_db'); } catch(e) {}
+        location.reload();
+      }
+    }
+
+    // Inisialisasi langsung saat halaman dimuat
+    (function init() {
+      var d = new Date();
+      var yyyy = d.getFullYear();
+      var mm = String(d.getMonth() + 1).padStart(2, '0');
+      var dd = String(d.getDate()).padStart(2, '0');
+      var dateField = document.getElementById('docDate');
+      if (dateField) dateField.value = yyyy + '-' + mm + '-' + dd;
+      checkDateReset();
+      calculateAll();
+    })();
+  </script>
+</body>
+</html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/index.js"></script>
+  <title>html</title>
+</head>
+<body>
+	<h1>html</h1>
+</body>
+</html>
